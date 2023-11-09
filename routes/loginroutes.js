@@ -10,7 +10,7 @@ router.get("/", (req, res, next) => {
   const payload = {
     loginTitle: "Login",
   };
-  res.status(200).render("login", payload);
+  res.status(200).render("Login", payload);
 });
 
 module.exports = router;
