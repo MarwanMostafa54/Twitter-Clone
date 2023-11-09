@@ -3,6 +3,7 @@ const colors = require("colors");
 const app = express();
 const router = express.Router();
 const bodyParser = require("body-parser");
+const User = require("../schemas/userSchema");
 
 app.set("view engine", "pug");
 app.set("views", "views");
@@ -11,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 router.get("/", (req, res, next) => {
   res.status(200).render("register");
 });
-router.post("/", (req, res, next) => {
+router.post("/", async (req, res, next) => {
   const fieldsToTrim = ["firstName", "lastName", "username", "email"];
   fieldsToTrim.forEach((field) => {
     if (req.body[field] !== undefined && req.body[field] !== null) {
@@ -29,9 +30,28 @@ router.post("/", (req, res, next) => {
     username !== "" &&
     lastName !== "" &&
     email !== "" &&
-    password
+    password !== ""
   ) {
-   
+    var user = await User.findOne({
+      $or: [{ username: username }, { email: email }],
+    }).catch((err) => {
+      console.error(err);
+      payload.errorMessage = "something went wrong";
+      res.status(200).render("register", payload);
+    });
+
+    if (user == null) {
+      var data = req.body;
+      const newUser = await User.create(data);
+      console.log(newUser);
+    } else {
+      if (email === user.email) {
+        payload.errorMessage = "email already in use";
+      } else {
+        payload.errorMessage = "username already in use";
+      }
+      res.status(200).render("register", payload);
+    }
   } else {
     payload.errorMessage = "make sure each field has a valid value";
     res.status(200).render("register", payload);
