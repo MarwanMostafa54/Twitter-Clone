@@ -13,7 +13,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 router.get("/", (req, res, next) => {
   Post.find()
     .populate("postedBy")
-    .then((results) => {
+    .populate("retweetData")
+    .then(async (results) => {
+      results = await User.populate(results, { path: "retweetData.postedBy" });
       res.status(200).send(results);
     })
     .catch((err) => {
@@ -59,6 +61,38 @@ router.put("/:id/like", async (req, res, next) => {
     postId,
     {
       [option]: { likes: userID },
+    },
+    { new: true }
+  );
+
+  res.status(200).send(post);
+});
+router.post("/:id/retweet", async (req, res, next) => {
+  const postId = req.params.id;
+  const userID = req.session.user._id;
+
+  var deletedPost = await Post.findOneAndDelete({
+    postedBy: userID,
+    retweetData: postId,
+  });
+  const option = deletedPost != null ? "$pull" : "$addToSet";
+
+  var repost = deletedPost;
+  if (repost === null) {
+    repost = await Post.create({ postedBy: userID, retweetData: postId });
+  }
+
+  req.session.user = await User.findByIdAndUpdate(
+    userID,
+    {
+      [option]: { retweets: repost._id },
+    },
+    { new: true }
+  );
+  const post = await Post.findByIdAndUpdate(
+    postId,
+    {
+      [option]: { retweetUsers: userID },
     },
     { new: true }
   );

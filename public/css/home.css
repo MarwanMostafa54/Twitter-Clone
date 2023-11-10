@@ -9,6 +9,9 @@
   --gryText: rgb(101, 119, 134);
   --greybutton: rgba(0, 0, 0, 0.34);
   --red: rgb(226, 34, 94);
+  --green: rgb(23, 191, 99);
+  --redbg: rgb(226, 34, 94, 0.1);
+  --greenbg: rgb(23, 191, 99, 0.1);
 }
 
 a {
@@ -178,6 +181,22 @@ button span {
   border-radius: 50%;
 }
 
-.postbuttonContainer .red button.active {
+.postbuttonContainer.red button.active {
   color: var(--red);
+}
+.postbuttonContainer.green button.active {
+  color: var(--green);
+}
+.postbuttonContainer.red button:hover {
+  color: var(--red);
+  background-color: var(--redbg);
+}
+.postbuttonContainer.green button:hover {
+  color: var(--green);
+  background-color: var(--greenbg);
+}
+.postActionContainer {
+  padding-left: 40px;
+  font-size: 13px;
+  color: var(--gryText);
 }

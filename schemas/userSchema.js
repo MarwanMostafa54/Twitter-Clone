@@ -11,6 +11,8 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     profilePic: { type: String, default: "/images/Dprofile.png" },
     likes: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+    retweets: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+    retweetData: { type: Schema.Types.ObjectId, ref: "Post" },
   },
   { timestamps: true }
 );
