@@ -22,7 +22,7 @@ app.use(
   session({
     secret: "maro",
     resave: true,
-    saveUnitialized: false,
+    saveUninitialized: false,
   })
 );
 
@@ -31,10 +31,16 @@ const loginRoute = require("./routes/loginRoutes");
 app.use("/login", loginRoute);
 const registerRoute = require("./routes/registerRoutes");
 app.use("/register", registerRoute);
+const logoutRoute = require("./routes/logoutRoutes");
+app.use("/logout", logoutRoute);
+
+//api routes
+const postApiRouts = require("./routes/api/posts.js");
+app.use("/api/posts", postApiRouts);
 
 app.get("/", middlware.requirelogin, (req, res, next) => {
   var payload = {
-    pageTitle: "home",
+    pageTitle: "Home",
     userLoggedIn: req.session.user,
   };
   res.status(200).render("home", payload);

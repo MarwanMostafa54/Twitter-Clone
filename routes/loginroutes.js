@@ -7,6 +7,7 @@ const User = require("../schemas/userSchema");
 const session = require("session");
 const bcrypt = require("bcrypt");
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "pug");
 app.set("views", "views");
 

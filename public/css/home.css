@@ -1,0 +1,117 @@
+:root {
+  --blue: #1da1f2;
+  --bluelight: #9bd1f9;
+  --bluedark: #217dbb;
+  --terq: #1da1f2;
+  --Hbg: #e1e8ed;
+  --brdr: #e1e8ed;
+  --spacing: 15px;
+}
+
+a {
+  color: var(--terq);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+nav a {
+  color: #212529;
+  padding: 15px;
+  font-size: 24px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+nav a.blue {
+  color: var(--blue);
+}
+
+nav a:hover {
+  background-color: var(--blue);
+  color: white;
+}
+
+.mainSectionContainer {
+  padding: 0;
+  border-left: 1px solid var(--brdr);
+  border-right: 1px solid var(--brdr);
+  display: flex;
+  flex-direction: column;
+}
+
+.titleContainer {
+  height: 60px;
+  padding: var(--spacing);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--brdr);
+  flex-shrink: 0;
+}
+
+.titleContainer h1 {
+  flex: 1;
+}
+
+.postFormContainer {
+  display: flex;
+  padding: var(--spacing);
+  border-bottom: 10px solid rgb(230, 236, 240);
+  flex-shrink: 0;
+}
+.userImageConatiner {
+  width: 50px;
+  height: 50px;
+}
+.userImageConatiner img {
+  width: 100%;
+  border-radius: 50%;
+  background-color: white;
+}
+.textareaContainer {
+  flex: 1;
+  padding-left: var(--spacing);
+}
+.textareaContainer textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  font-size: 19px;
+}
+#postButton {
+  background: linear-gradient(to right, #3498db, #217dbb);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#postButton:disabled {
+  background: linear-gradient(to right, #ccc, #ccc);
+  color: #999;
+  cursor: not-allowed;
+}
+
+#postButton:not(:disabled):hover {
+  background: linear-gradient(to right, #217dbb, #3498db);
+  transform: scale(1.05);
+}

@@ -1,7 +1,8 @@
 extends layout/login-layout.pug 
-block content 
+block content     
     .loginContainer 
         h1 login 
+            i.fa-solid.fa-dove(style="font-size: 24px")
         P.errorMEssage #{errorMessage} 
         form(action="", method="post")
             input(type="text", name="logUserName", placeholder="Username or email",value=logUserName, required="")
