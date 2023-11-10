@@ -31,7 +31,7 @@ $("#postButton").click((event) => {
 $(document).on("click", ".likeButton", (event) => {
   var button = $(event.target);
   postId = getPostId(button);
-  console.log(postId);
+  
 });
 
 function getPostId(element) {
