@@ -10,7 +10,17 @@ const bcrypt = require("bcrypt");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/", (req, res, next) => {});
+router.get("/", (req, res, next) => {
+  Post.find()
+    .populate("postedBy")
+    .then((results) => {
+      res.status(200).send(results);
+    })
+    .catch((err) => {
+      console.log("Error getting posts", err);
+      res.sendStatus(400);
+    });
+});
 router.post("/", async (req, res, next) => {
   if (!req.body.content) {
     console.log("No content");

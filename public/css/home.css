@@ -7,6 +7,7 @@
   --brdr: #e1e8ed;
   --spacing: 15px;
   --gryText: rgb(101, 119, 134);
+  --greybutton: rgba(0, 0, 0, 0.34);
 }
 
 a {
@@ -49,7 +50,11 @@ nav a:hover {
   background-color: var(--blue);
   color: white;
 }
-
+button {
+  background-color: transparent;
+  border: none;
+  color: var(--greybutton);
+}
 .mainSectionContainer {
   padding: 0;
   border-left: 1px solid var(--brdr);
@@ -136,4 +141,33 @@ nav a:hover {
 .username,
 .date {
   color: var(--gryText);
+}
+.displayName {
+  font-weight: bold;
+}
+.postFooter {
+  display: flex;
+  align-items: center;
+}
+.postFooter .postbuttonContainer {
+  flex: 1;
+  display: flex;
+}
+
+.postFooter .postbuttonContainer button {
+  padding: 2px 5px;
+}
+.header a:hover {
+  text-decoration: underline;
+}
+
+.header a,
+.header span {
+  padding-right: 5px;
+}
+
+.postbuttonContainer button:hover {
+  background-color: #d4edff;
+  color: var(--blue);
+  border-radius: 50%;
 }
