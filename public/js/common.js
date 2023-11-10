@@ -28,11 +28,27 @@ $("#postButton").click((event) => {
   });
 });
 
+$(document).on("click", ".likeButton", (event) => {
+  var button = $(event.target);
+  postId = getPostId(button);
+  console.log(postId);
+});
+
+function getPostId(element) {
+  var isRoot = element.hasClass("post");
+  var rootElement = isRoot ? element : element.closest(".post");
+  var postId = rootElement.data().id;
+  if (postId === undefined) {
+    return alert("postid");
+  }
+  return postId;
+}
+
 function createpost(postData) {
   const user = postData.postedBy;
-  var timestamp = timeDifference(new date(), new date(postData.createdAt));
+  var timestamp = timeDifference(new Date(), new Date(postData.createdAt));
   const postHTML = `
-  <div class="post">
+  <div class="post" data-id='${postData._id}'>
   <div class="mainContentContainer">
         <div class="userImageConatiner">
           <img src="${user.profilePic}">
@@ -58,7 +74,7 @@ function createpost(postData) {
                 </button>
             </div>
             <div class = "postbuttonContainer">
-                <button>
+                <button class = "likeButton">
                 <i class="fa-solid fa-heart"></i>
                 </button>
             </div>
