@@ -19,7 +19,38 @@ $("#postButton").click((event) => {
     content: textbox.val(),
   };
 
-  $.post("/api/posts", data, (postData, status, xhr) => {
-    alert(postData)
+  $.post("/api/posts", data, (postData) => {
+    var html = createpost(postData);
+    var submitButton = $("#postButton");
+    $(".postsContainer").prepend(html);
+    textbox.val("");
+    submitButton.prop("disabled", true);
   });
 });
+
+function createpost(postData) {
+  const user = postData.postedBy;
+  var timestamps = postData.createdAt;
+  const postHTML = `
+  <div class="post">
+  <div class="mainContentContainer">
+        <div class="userImageConatiner">
+          <img src="${user.profilePic}" alt="${user.firstName}'s profile pic">
+          </div>
+          <div class="postContentContainer">  
+          <div class="header">        
+          <a href="/profile/${user.username}">${user.firstName} ${user.lastName}</a>
+          <span class="username">@${user.username}</span>
+          <span class="date"> ${timestamps}</span>
+         </div>
+        <div class="postBody">
+          <span>${postData.content}</span>
+        </div>
+        <div class="postFooter">
+        </div>
+        </div>
+        </div>
+        </div>
+    `;
+  return postHTML;
+}

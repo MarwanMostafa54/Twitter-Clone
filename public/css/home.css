@@ -6,6 +6,7 @@
   --Hbg: #e1e8ed;
   --brdr: #e1e8ed;
   --spacing: 15px;
+  --gryText: rgb(101, 119, 134);
 }
 
 a {
@@ -114,4 +115,25 @@ nav a:hover {
 #postButton:not(:disabled):hover {
   background: linear-gradient(to right, #217dbb, #3498db);
   transform: scale(1.05);
+}
+.post {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  padding: var(--spacing);
+  border-bottom: 1px solid var(--brdr);
+}
+.mainContentContainer {
+  display: flex;
+  flex: 1;
+}
+.postContentContainer {
+  padding-left: var(--spacing);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.username,
+.date {
+  color: var(--gryText);
 }
