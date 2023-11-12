@@ -10,18 +10,13 @@ const bcrypt = require("bcrypt");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/", (req, res, next) => {
-  Post.find()
-    .populate("postedBy")
-    .populate("retweetData")
-    .then(async (results) => {
-      results = await User.populate(results, { path: "retweetData.postedBy" });
-      res.status(200).send(results);
-    })
-    .catch((err) => {
-      console.log("Error getting posts", err);
-      res.sendStatus(400);
-    });
+router.get("/", async (req, res, next) => {
+  res.status(200).send(await getPosts({}));
+});
+router.get("/:id", async (req, res, next) => {
+  var postId = req.params.id;
+  var results = await getPosts({ _id: postId });
+  res.status(200).send(results[0]);
 });
 router.post("/", async (req, res, next) => {
   if (!req.body.content) {
@@ -32,6 +27,9 @@ router.post("/", async (req, res, next) => {
     content: req.body.content,
     postedBy: req.session.user,
   };
+  if (req.body.replyTo) {
+    postData.replyTo = req.body.replyTo;
+  }
   Post.create(postData)
     .then(async (newPost) => {
       newPost = await User.populate(newPost, { path: "postedBy" });
@@ -100,4 +98,15 @@ router.post("/:id/retweet", async (req, res, next) => {
   res.status(200).send(post);
 });
 
+async function getPosts(filter) {
+  var results = await Post.find(filter)
+    .populate("postedBy")
+    .populate("retweetData")
+    .populate("replyTo")
+    .catch((err) => {
+      console.log("Error getting posts", err);
+    });
+  results = await User.populate(results, { path: "replyTo.postedBy" });
+  return await User.populate(results, { path: "retweetData.postedBy" });
+}
 module.exports = router;

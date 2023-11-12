@@ -91,6 +91,15 @@ button span {
   border-bottom: 10px solid rgb(230, 236, 240);
   flex-shrink: 0;
 }
+.modal .postFormContainer {
+  border: none;
+  padding: 0;
+  padding-top: var(--spacing);
+}
+.modal .post {
+  padding: none;
+  padding-bottom: vae(--spacing);
+}
 .userImageConatiner {
   width: 50px;
   height: 50px;
@@ -199,4 +208,27 @@ button span {
   padding-left: 40px;
   font-size: 13px;
   color: var(--gryText);
+}
+#submitButtonReply {
+  background: linear-gradient(to right, #3498db, #217dbb);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#submitButtonReply:disabled {
+  background: linear-gradient(to right, #ccc, #ccc);
+  color: #999;
+  cursor: not-allowed;
+}
+
+#submitButtonReply:not(:disabled):hover {
+  background: linear-gradient(to right, #217dbb, #3498db);
+  transform: scale(1.05);
+}
+.replyContainer {
+  font-size: 12px;
 }

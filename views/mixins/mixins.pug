@@ -3,7 +3,29 @@ mixin createPostForm(userLoggedIn)
         .userImageConatiner     
             img(src=userLoggedIn.profilePic, alt="user's profile pic")
         .textareaContainer
-            textarea#postTextarea(placeholder = " What's New? ") 
+            textarea#postTextarea(placeholder="What's New?")
             .buttonContainer  
                 button#postButton(disabled="") post
+
+mixin createReplyModal(userLoggedIn)
+  #replyModal.modal.fade(tabindex='-1', role='dialog', aria-bs-labelledby='replyModalLabel', aria-bs-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5#replyModalLabel.modal-title Reply
+                button.close(type='button', data-bs-dismiss='modal', aria-bs-label='Close')
+                span(aria-bs-hidden='true') &times;
+            .modal-body
+                #originalPostContainer
+                .postFormContainer 
+                    .userImageConatiner     
+                        img(src=userLoggedIn.profilePic, alt="user's profile pic")
+                    .textareaContainer
+                        textarea#replyTextarea(placeholder="What's New?")
+
+            .modal-footer
+                button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
+                button#submitButtonReply.btn.btn-primary(type='button',disabled="") Reply
+
+
 
