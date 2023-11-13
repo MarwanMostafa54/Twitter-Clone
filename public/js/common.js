@@ -76,7 +76,13 @@ $(document).on("click", ".retweet", (event) => {
     },
   });
 });
-
+$(document).on("click", ".post", (event) => {
+  var element = $(event.target);
+  postId = getPostId(element);
+  if (postId !== undefined && !element.is("button")) {
+    window.location.href = `/post/${postId}`;
+  }
+});
 function getPostId(element) {
   var isRoot = element.hasClass("post");
   var rootElement = isRoot ? element : element.closest(".post");
@@ -92,7 +98,7 @@ $("#replyModal").on("show.bs.modal", (event) => {
   $("#submitButtonReply").attr("data-id", postId);
 
   $.get(`/api/posts/${postId}`, (results) => {
-    outputPost([results], $("#originalPostContainer"));
+    outputPost(results.postData, $("#originalPostContainer"));
   });
 });
 $("#replyModal").on("hidden.bs.modal", (event) => {
@@ -126,13 +132,14 @@ function createpost(postData) {
     if (postData.replyTo._id && postData.replyTo.postedBy._id) {
       var replyToUser = postData.replyTo.postedBy.username;
       replyText = `
-      <span>
+      <span class="replyText"> <!-- Add the "replyText" class here -->
         <i class="fa-solid fa-comments"></i>
         replied To <a href="/profile/${replyToUser}">@${replyToUser}</a>
       </span>`;
     }
   }
-  const postHTML = `<div class="postActionContainer">${retweetText}</div>
+  const postHTML = `
+  <div class="postActionContainer">${retweetText}</div>
   <div class="post" data-id="${postData._id}">
     <div class="mainContentContainer">
       <div class="userImageConatiner">
@@ -146,7 +153,7 @@ function createpost(postData) {
           <span class="username">@${user.username}</span>
           <span class="date"> ${timestamp}</span>
         </div>
-        <div class="replyContainer${replyText}</div>
+        ${replyText}
         <div class="postBody">
           <span>${postData.content}</span>
         </div>
@@ -205,12 +212,22 @@ function timeDifference(current, previous) {
   }
 }
 function outputPost(results, container) {
-  if (results.length == 0) {
-    container.append("<span>Nothing to show</span>");
-  }
   container.html("");
   results.forEach((result) => {
     var html = createpost(result);
     container.prepend(html);
+  });
+}
+function outputPostWithReplies(results, container) {
+  container.html("");
+  if (results.replyTo) {
+    var replyToHtml = createpost(results.replyTo);
+    container.append(replyToHtml);
+  }
+  var userPostHtml = createpost(results.postData);
+  container.append(userPostHtml);
+  results.replies.forEach((result) => {
+    var html = createpost(result);
+    container.append(html);
   });
 }

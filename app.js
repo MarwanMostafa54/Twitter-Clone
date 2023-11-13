@@ -33,6 +33,8 @@ const registerRoute = require("./routes/registerRoutes");
 app.use("/register", registerRoute);
 const logoutRoute = require("./routes/logoutRoutes");
 app.use("/logout", logoutRoute);
+const postRoute = require("./routes/postRoutes");
+app.use("/post", middlware.requirelogin, postRoute);
 
 //api routes
 const postApiRouts = require("./routes/api/posts.js");

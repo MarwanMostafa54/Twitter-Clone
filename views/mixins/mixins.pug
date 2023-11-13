@@ -27,5 +27,17 @@ mixin createReplyModal(userLoggedIn)
                 button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
                 button#submitButtonReply.btn.btn-primary(type='button',disabled="") Reply
 
+mixin createdeleteModal(userLoggedIn)
+  #deleteModal.modal.fade(tabindex='-1', role='dialog', aria-bs-labelledby='deleteModalLabel', aria-bs-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5#deleteModalLabel.modal-title Reply
+                button.close(type='button', data-bs-dismiss='modal', aria-bs-label='Close')
+                span(aria-bs-hidden='true') &times;
+            .modal-body
+                p you won't be able to delete this.
 
-
+            .modal-footer
+                button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
+                button#submitButtonDelete.btn.btn-primary(type='button') Delete

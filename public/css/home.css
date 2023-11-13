@@ -229,6 +229,7 @@ button span {
   background: linear-gradient(to right, #217dbb, #3498db);
   transform: scale(1.05);
 }
-.replyContainer {
+.replyText {
+  margin-bottom: 5px;
   font-size: 12px;
 }
