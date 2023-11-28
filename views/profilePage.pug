@@ -1,7 +1,7 @@
 extends layout/main-layout.pug
 block content 
-    if !porfileUser
-        span.errorMessage USER NOT FOUND 
+    if !profileUser
+        span.errorMessage Oops! The requested user profile was not found.
     else
         .postsContainer 
         +createdeleteModal()
