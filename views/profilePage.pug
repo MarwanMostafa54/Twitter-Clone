@@ -1,0 +1,11 @@
+extends layout/main-layout.pug
+block content 
+    if !porfileUser
+        span.errorMessage USER NOT FOUND 
+    else
+        .postsContainer 
+        +createdeleteModal()
+        +createReplyModal(userLoggedIn)
+    
+block scripts
+    script(src="/js/profilePage.js")

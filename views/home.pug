@@ -2,6 +2,7 @@ extends layout/main-layout.pug
 block content
     +createPostForm(userLoggedIn)
     .postsContainer 
+    +createdeleteModal()
     +createReplyModal(userLoggedIn)
     
 block scripts

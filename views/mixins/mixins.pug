@@ -27,7 +27,7 @@ mixin createReplyModal(userLoggedIn)
                 button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
                 button#submitButtonReply.btn.btn-primary(type='button',disabled="") Reply
 
-mixin createdeleteModal(userLoggedIn)
+mixin createdeleteModal()
   #deleteModal.modal.fade(tabindex='-1', role='dialog', aria-bs-labelledby='deleteModalLabel', aria-bs-hidden='true')
     .modal-dialog(role='document')
         .modal-content

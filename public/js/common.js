@@ -73,6 +73,7 @@ $(document).on("click", ".retweet", (event) => {
       } else {
         button.removeClass("active");
       }
+      location.reload();
     },
   });
 });
@@ -104,6 +105,22 @@ $("#replyModal").on("show.bs.modal", (event) => {
 $("#replyModal").on("hidden.bs.modal", (event) => {
   $("#originalPostContainer").html("");
 });
+
+$("#deleteModal").on("show.bs.modal", (event) => {
+  var button = $(event.relatedTarget);
+  postId = getPostId(button);
+  $("#submitButtonDelete").attr("data-id", postId);
+});
+$("#submitButtonDelete").click((event) => {
+  var postId = $(event.target).data("id");
+  $.ajax({
+    url: `/api/posts/${postId}`,
+    type: "DELETE",
+    success: () => {
+      location.reload();
+    },
+  });
+});
 function createpost(postData) {
   if (postData === null) return alert("data is null");
   var isRetweeet = postData.retweetData !== undefined;
@@ -119,6 +136,13 @@ function createpost(postData) {
   )
     ? "active"
     : "";
+  var button = "";
+  if (postData.postedBy._id == userLoggedIn._id) {
+    button = `
+        <button data-bs-id="${postData._id}" data-bs-toggle="modal"
+        data-bs-target="#deleteModal"> <i class="fa-solid fal fa-times"> </i></button>
+      `;
+  }
   var retweetText = "";
   if (isRetweeet) {
     retweetText = `
@@ -138,6 +162,7 @@ function createpost(postData) {
       </span>`;
     }
   }
+
   const postHTML = `
   <div class="postActionContainer">${retweetText}</div>
   <div class="post" data-id="${postData._id}">
@@ -152,7 +177,8 @@ function createpost(postData) {
           >
           <span class="username">@${user.username}</span>
           <span class="date"> ${timestamp}</span>
-        </div>
+          ${button}
+          </div>
         ${replyText}
         <div class="postBody">
           <span>${postData.content}</span>

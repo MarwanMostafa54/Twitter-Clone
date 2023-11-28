@@ -233,3 +233,10 @@ button span {
   margin-bottom: 5px;
   font-size: 12px;
 }
+
+.postContentContainer .header {
+  display: flex;
+}
+.postContentContainer .header .date {
+  flex: 1;
+}

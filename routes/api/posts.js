@@ -117,4 +117,14 @@ async function getPosts(filter) {
   results = await User.populate(results, { path: "replyTo.postedBy" });
   return await User.populate(results, { path: "retweetData.postedBy" });
 }
+router.delete("/:id", async (req, res, Next) => {
+  Post.findByIdAndDelete(req.params.id)
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(400);
+    });
+});
 module.exports = router;
