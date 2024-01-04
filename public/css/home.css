@@ -240,3 +240,142 @@ button span {
 .postContentContainer .header .date {
   flex: 1;
 }
+
+.coverContainer {
+  height: 200px;
+  background-color: var(--blue);
+  position: relative;
+}
+.profileHeaderContainer .userImageConrainer {
+  width: 132px;
+  height: 132px;
+  margin-left: var(--spacing);
+  position: absolute;
+  bottom: -66px;
+}
+.profileHeaderContainer .userImageConrainer img {
+  border-radius: 50%;
+  border: 4px solid white;
+}
+.profileHeaderContainer .profileButtonContainer {
+  text-align: right;
+  padding: var(--spacing);
+  min-height: 66px;
+}
+.following,
+.followButton,
+.profileButton {
+  border: 1px solid var(--blue);
+  font-weight: bold;
+  padding: 5px 15px;
+  border-radius: 60px;
+  display: inline-block;
+  margin-left: var(--spacing);
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  background: linear-gradient(to right, #3498db, #217dbb);
+  color: white;
+}
+.following:hover,
+.followButton:hover,
+.profileButton:hover {
+  background: linear-gradient(to right, #217dbb, #3498db);
+  color: white;
+  transform: scale(1.1);
+}
+
+.titleContainer {
+  margin-top: 10px;
+}
+
+.titleContainer h1 a {
+  font-size: 2em;
+  font-family: "Arial", sans-serif;
+  position: relative;
+  display: inline-block;
+  color: #2c3e50;
+  cursor: pointer;
+}
+/* Global styles */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container styles */
+.userDataContainer,
+.followingContainer {
+  margin-bottom: 20px;
+}
+
+/* Display name styles */
+.userDataContainer .displayName {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  display: block;
+}
+
+/* Username and Description styles */
+.userDataContainer .username,
+.userDataContainer .description {
+  font-size: 0.9em;
+  color: #666;
+  display: block;
+}
+
+.followingContainer {
+  display: flex;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.follow,
+.follow .value,
+.followers,
+.followers .value {
+  margin-right: 5px;
+}
+
+.follow .value,
+.followers .value {
+  font-weight: bold;
+  color: #555;
+}
+
+span.following,
+span.followers {
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tabsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #007bff;
+  background-color: #f8f8f8;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 20px;
+  text-align: center;
+  color: #333;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.3s, border-bottom-color 0.3s, background-color 0.3s;
+}
+
+.tab.active {
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+}
+
+.tab:hover {
+  color: #007bff;
+  background-color: #cce5ff;
+}

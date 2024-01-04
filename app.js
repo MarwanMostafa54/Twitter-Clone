@@ -25,7 +25,6 @@ app.use(
     saveUninitialized: false,
   })
 );
-
 //Routes
 const loginRoute = require("./routes/loginRoutes");
 app.use("/login", loginRoute);

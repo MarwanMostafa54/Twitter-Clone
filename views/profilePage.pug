@@ -3,9 +3,36 @@ block content
     if !profileUser
         span.errorMessage Oops! The requested user profile was not found.
     else
+        script.
+            var userLoggedIn = !{userLoggedInJs};
+            var profileUserId = '!{profileUser._id}';
+            var selectedTabs = '!{selectedTabs}';
+            var isFollowing = !{isFollowing};
+        .profileHeaderContainer 
+            .coverContainer
+                .userImageConrainer 
+                    img(src=profileUser.profilePic, alt="user profile Image")
+            .profileButtonContainer 
+                if profileUser._id != userLoggedIn._id 
+                    a.profileButton(href=`/messages/${profileUser._id}`)
+                         i.fas.fa-envelope 
+                    .followButtonContainer
+                        +createFollowButton(profileUser,isFollowing)   
+            .userDataContainer  
+                span.displayName #{profileUser.firstName} #{profileUser.lastName}
+                span.username @#{profileUser.username}
+                span.discription #{profileUser.discription}
+            .followingContainer  
+                .follow 
+                    span.value #{profileUser.following.length}
+                    span following
+                .followers
+                    span.value #{profileUser.followers.length}
+                    span followers
+        .tabsContainer
+            +createTab("Posts",`/profile/${profileUser.username}`,selectedTabs!=="replies") 
+            +createTab("Replies",`/profile/${profileUser.username}/replies`,selectedTabs==="replies") 
         .postsContainer 
-        +createdeleteModal()
-        +createReplyModal(userLoggedIn)
     
 block scripts
     script(src="/js/profilePage.js")

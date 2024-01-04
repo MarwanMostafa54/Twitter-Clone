@@ -36,8 +36,18 @@ mixin createdeleteModal()
                 button.close(type='button', data-bs-dismiss='modal', aria-bs-label='Close')
                 span(aria-bs-hidden='true') &times;
             .modal-body
-                p you won't be able to delete this.
+                p you won't be able to undo this.
 
             .modal-footer
                 button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
                 button#submitButtonDelete.btn.btn-primary(type='button') Delete
+
+mixin createFollowButton (user , isFollowing)
+    -text = isFollowing ? "Following" : "Follow"
+    -buttonClass = isFollowing ? "followButton following" : "following"
+    button(class = buttonClass , data-user=user._id) #{text}
+
+mixin createTab(name,href ,isSelected)
+    -className = isSelected ? "tab active" : "tab"
+    a(href=href,class=className)
+        span #{name}

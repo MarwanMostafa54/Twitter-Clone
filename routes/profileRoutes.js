@@ -8,16 +8,6 @@ const session = require("session");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
-router.get("/", (req, res, next) => {
-  var payload = {
-    pageTitle: req.session.user.username,
-    userLoggedIn: req.session.user,
-    userLoggedInJs: JSON.stringify(req.session.user),
-    profileUser: req.session.user,
-  };
-  res.status(200).render("profilePage", payload);
-});
-
 router.get("/:usernameOrId", async (req, res, next) => {
   const { usernameOrId } = req.params;
   try {
@@ -25,15 +15,50 @@ router.get("/:usernameOrId", async (req, res, next) => {
       pageTitle: "User not found",
       userLoggedIn: req.session.user,
       userLoggedInJs: JSON.stringify(req.session.user),
-      profileUser: null,
     };
+    payload.selectedTabs = " ";
     if (mongoose.Types.ObjectId.isValid(usernameOrId)) {
       payload.profileUser = await User.findById(usernameOrId);
+      payload.profileUserJs = JSON.stringify(payload.profileUser);
     } else {
       payload.profileUser = await User.findOne({ username: usernameOrId });
+      payload.profileUserJs = JSON.stringify(payload.profileUser);
     }
     if (payload.profileUser) {
       payload.pageTitle = payload.profileUser.username;
+    }
+    payload.isFollowing = false;
+    if (payload.profileUser.followers.includes(payload.userLoggedIn._id)) {
+      payload.isFollowing = true;
+    }
+    return res.status(200).render("profilePage", payload);
+  } catch (error) {
+    console.error("Error fetching user:", error.message);
+    return res.status(500).send(`Error fetching user data: ${error.message}`);
+  }
+});
+router.get("/:usernameOrId/replies", async (req, res, next) => {
+  const { usernameOrId } = req.params;
+  try {
+    let payload = {
+      pageTitle: "User not found",
+      userLoggedIn: req.session.user,
+      userLoggedInJs: JSON.stringify(req.session.user),
+    };
+    if (mongoose.Types.ObjectId.isValid(usernameOrId)) {
+      payload.profileUser = await User.findById(usernameOrId);
+      payload.profileUserJs = JSON.stringify(payload.profileUser);
+    } else {
+      payload.profileUser = await User.findOne({ username: usernameOrId });
+      payload.profileUserJs = JSON.stringify(payload.profileUser);
+    }
+    if (payload.profileUser) {
+      payload.pageTitle = payload.profileUser.username;
+    }
+    payload.selectedTabs = "replies";
+    payload.isFollowing = false;
+    if (payload.profileUser.followers.includes(payload.userLoggedIn._id)) {
+      payload.isFollowing = true;
     }
     return res.status(200).render("profilePage", payload);
   } catch (error) {

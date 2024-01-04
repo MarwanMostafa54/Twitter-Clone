@@ -23,13 +23,24 @@ html(lang="en")
             i.fa-solid.fa-bell
           a(href="/messages")
             i.fa-solid.fa-message
-          a(href="/profile")
+          a(href=`/profile/${userLoggedIn.username}`)
             i.fa-solid.fa-user
           a(href="/logout")
             i.fa-solid.fa-right-from-bracket
         .mainSectionContainer.col-10.col-md-7
           .titleContainer
-            h1= pageTitle
+           h1
+              if pageTitle == "Home"
+                a(href="/") #{pageTitle}
+              else if pageTitle == "notifications"
+                a(href="/notifications") #{pageTitle}
+              else if pageTitle == "messages"
+                a(href="/messages") #{pageTitle}
+              else if pageTitle == "search"
+                a(href="/search") #{pageTitle}
+              else 
+                a(href=`/profile/${pageTitle}`) #{pageTitle}
+
           block content
     script(src='https://code.jquery.com/jquery-3.7.1.min.js', integrity='sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=', crossorigin='anonymous')
     script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js', integrity='sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r', crossorigin='anonymous')

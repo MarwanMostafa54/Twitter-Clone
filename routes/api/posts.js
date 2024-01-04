@@ -11,7 +11,14 @@ const bcrypt = require("bcrypt");
 app.use(bodyParser.urlencoded({ extended: false }));
 
 router.get("/", async (req, res, next) => {
-  res.status(200).send(await getPosts({}));
+  var searchObj = req.query;
+  if (searchObj.isReply !== undefined) {
+    var isReply = searchObj.isReply == "true";
+    searchObj.replyTo = { $exists: isReply };
+    delete searchObj.isReply;
+  }
+  var results = await getPosts(searchObj);
+  res.status(200).send(results);
 });
 router.get("/:id", async (req, res, next) => {
   var postId = req.params.id;
@@ -127,4 +134,43 @@ router.delete("/:id", async (req, res, Next) => {
       res.sendStatus(400);
     });
 });
+router.post("/:profileUserId/follow", async (req, res) => {
+  const profileUserId = req.params.profileUserId;
+  const isFollowing = req.body.isFollowing === "true";
+  const userLoggedInId = req.session.user._id;
+  console.log(isFollowing);
+  try {
+    const userLoggedIn = await User.findById(userLoggedInId);
+    const profileUser = await User.findById(profileUserId);
+
+    if (!userLoggedIn || !profileUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Users not found" });
+    }
+    if (isFollowing) {
+      userLoggedIn.following.push(profileUser);
+      profileUser.followers.push(userLoggedIn);
+    } else {
+      const index = userLoggedIn.following.indexOf(profileUserId);
+      if (index > -1) {
+        userLoggedIn.following.splice(index, 1);
+      }
+      const index1 = profileUser.followers.indexOf(userLoggedInId);
+      if (index1 > -1) {
+        profileUser.followers.splice(index1, 1);
+      }
+    }
+    await userLoggedIn.save();
+    await profileUser.save();
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Error occurred while processing the request:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Error processing the request" });
+  }
+});
+
 module.exports = router;
